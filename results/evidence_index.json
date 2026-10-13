@@ -1,5 +1,5 @@
 {
-  "created_utc": "2026-10-13T01:43:18.203840+00:00",
+  "created_utc": "2026-10-13T01:45:28.920326+00:00",
   "scientific_audit_sha256": "07e17fc79216d56764a2b4927eb090f8a732e71d16f495f02d5ddeb7d0a369a8",
   "pdf_sha256": "bc0df0a1d9a28b45ebeb1086e30dd73f034e911c17c86ed743dac7e8a094e6a8",
   "stages": {
@@ -106,13 +106,14 @@
     "new_potential_relaxation.py": "05deadeb4bb8ed3b779a355f40452e17f74dda6a015528e8e2aea02c2f769123",
     "new_potential_static.py": "e40f043a7c639405dea38d19b5532509f1d0541f64074728b5e29b63e9f0ca1b",
     "prepare_force_datasets.py": "c2dc2e566b36760736c284981fd84db6d3200585566274ea42ee6eccf82dec5d",
+    "profile_mace_device.py": "c5c91fba09f2e058793517b90d6506d8d5927434fd0d220ae8ebe3e7c8b98706",
     "README.md": "7bcf931f7fdd785a858da177a67f4cd3653319328b1cf5ed86bcb580c825040d",
     "relaxation_analysis.py": "7b9f17d6927bc85d78d1008cc28d4794fd892e9952ddb059b52b95fb236d4af0",
     "relaxation_runner.py": "a9b4acd7b1ff81fa9f85c82d0ed734ebe357078e5686b05590944abdd9442134",
     "reports/report.md": "4c74cabf971a47fe0f3ce366b815f3163c90fa7070f26057f973558a96a50c6f",
     "reports/report.pdf": "bc0df0a1d9a28b45ebeb1086e30dd73f034e911c17c86ed743dac7e8a094e6a8",
     "reproduce.py": "1d8c6863a8a72348cf3089910fca783d251755328c3dfe58b8fc8753a39e2774",
-    "REPRODUCING.md": "bcf03469031d7d6e5c2c93edf7465ef31088d371ad7fd8bf1d2bd11f4fdb35dd",
+    "REPRODUCING.md": "2ea1c7ea4de698be1e7ead90a675eb4dec79024d15e70ea4c8062dbf3575600a",
     "requirements-execution-tools.txt": "7be1f9f7dcdae57a1fb8a7caf317c5255c3e5c6e652fd5f8ab79a5523a64979f",
     "requirements-force.txt": "5c820e0b28774874e474946044bcfa9ec26cd1e1344aec6570819f429948b284",
     "requirements-mace-cuda.txt": "e1f5934bc501d41d95475400b0e4034e78e1693ac2754c0b23b8a77c4a58299b",
