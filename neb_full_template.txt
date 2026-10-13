@@ -1,0 +1,427 @@
+FULL_FP_NEB_TEMPLATE = r"""#!/usr/bin/env python3
+import sys; sys.path.insert(0, '__SITE_PKGS__')
+import json, os, tempfile, time, socket, platform, datetime
+import numpy as np
+from pymatgen.core import Structure
+from pymatgen.io.ase import AseAtomsAdaptor
+from ase.optimize import BFGS
+from matcalc import RelaxCalc, NEBCalc
+__IMPORT_LINES__
+
+MODEL_PATH = __MODEL_PATH__
+__CALC_LINES__
+
+OUTPUT_KEY = "__OUTPUT_KEY__"
+PATHWAY_KEY = "__PATHWAY_KEY__"
+NIMAGES = __NIMAGES__
+RELAX_FMAX = __RELAX_FMAX__
+RELAX_MAX_STEPS = __RELAX_MAX_STEPS__
+NEB_FMAX = __NEB_FMAX__
+NEB_MAX_STEPS = __NEB_MAX_STEPS__
+AUTOSORT_TOLS = __AUTOSORT_TOLS__
+INPUT_PATH = "__INPUT_PATH__"
+OUTPUT_PATH = "__OUTPUT_PATH__"
+RUNTIME_CHECKPOINT_PATH = "__RUNTIME_CHECKPOINT_PATH__"
+
+print("BEGIN " + OUTPUT_KEY + " " + PATHWAY_KEY)
+
+
+def _pkg_version(name):
+    try:
+        import importlib.metadata
+        return importlib.metadata.version(name)
+    except Exception:
+        return None
+
+
+def base_calculation_metadata():
+    return {
+        "registry_key": "__REG_KEY__",
+        "output_key": OUTPUT_KEY,
+        "display_name": "__DISPLAY_NAME__",
+        "model_path": MODEL_PATH,
+        "environment_path": "__ENV_PATH__",
+        "python_version": platform.python_version(),
+        "package_versions": {"ase": _pkg_version("ase"), "pymatgen": _pkg_version("pymatgen"),
+                              "matcalc": _pkg_version("matcalc")},
+        "workflow_engine": "matcalc",
+        "endpoint_calculator": "matcalc.RelaxCalc",
+        "neb_calculator": "matcalc.NEBCalc",
+        "optimizer": "ASE BFGS through MatCalc",
+        "matcalc_version": _pkg_version("matcalc"),
+        "ase_version": _pkg_version("ase"),
+        "pymatgen_version": _pkg_version("pymatgen"),
+        "source_reference_file": "__SOURCE_REFERENCE_FILE__",
+        "source_reference_sha256": "__SOURCE_REFERENCE_SHA256__",
+        "protocol": "full_fp_neb",
+        "endpoint_fmax_eV_per_angstrom": RELAX_FMAX,
+        "endpoint_max_steps": RELAX_MAX_STEPS,
+        "neb_fmax_eV_per_angstrom": NEB_FMAX,
+        "neb_max_steps": NEB_MAX_STEPS,
+        "n_intermediate_images": NIMAGES,
+        "total_image_count": NIMAGES + 2,
+        "climbing_image": True,
+        "fixed_cell": True,
+        "autosort_tol_used": None,
+        "hostname": socket.gethostname(),
+        "slurm_job_id": os.environ.get("SLURM_JOB_ID"),
+        "calculation_timestamp_utc": datetime.datetime.utcnow().isoformat() + "Z",
+    }
+
+
+def atomic_write_json(path, data):
+    tmp = path + ".tmp"
+    with open(tmp, "w") as f:
+        json.dump(data, f, indent=2)
+        f.flush()
+        os.fsync(f.fileno())
+    os.replace(tmp, path)
+
+
+def struct_dicts(atoms_list):
+    return [AseAtomsAdaptor.get_structure(a).as_dict() for a in atoms_list]
+
+
+def write_runtime_checkpoint(stage, optimizer_step, log_count, fmax, endpoint_converged, neb_converged, atoms_list):
+    payload = {
+        "output_key": OUTPUT_KEY,
+        "pathway_key": PATHWAY_KEY,
+        "stage": stage,
+        "optimizer_step": optimizer_step,
+        "log_entry_count": log_count,
+        "fmax_eV_per_angstrom": fmax,
+        "endpoint_converged": endpoint_converged,
+        "neb_converged": neb_converged,
+        "recoverable_images": struct_dicts(atoms_list) if atoms_list else None,
+        "checkpoint_timestamp": time.time(),
+    }
+    atomic_write_json(RUNTIME_CHECKPOINT_PATH, payload)
+
+
+class TrackingBFGS(BFGS):
+    # Self-registers as TrackingBFGS.last_instance and self-attaches an
+    # externally configured observer the moment MatCalc instantiates it
+    # (matcalc calls self.optimizer(atoms) / self.optimizer(self.neb), i.e.
+    # exactly one positional arg, which this subclass accepts naturally).
+    # MatCalc remains the sole caller of .run(); nothing here calls it.
+    last_instance = None
+    active_observer = None
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        type(self).last_instance = self
+        observer = type(self).active_observer
+        if observer is not None:
+            self.attach(lambda: observer(self), interval=1)
+
+
+def run_matcalc_tracked(matcalc_call, observer):
+    TrackingBFGS.last_instance = None
+    TrackingBFGS.active_observer = observer
+    try:
+        result = matcalc_call()
+    finally:
+        TrackingBFGS.active_observer = None
+    optimizer = TrackingBFGS.last_instance
+    TrackingBFGS.last_instance = None
+    if optimizer is None:
+        raise RuntimeError(
+            "MatCalc did not instantiate TrackingBFGS -- the installed MatCalc "
+            "version did not accept/use the supplied optimizer class as expected; "
+            "refusing to silently fall back to a raw ASE optimizer"
+        )
+    return result, optimizer
+
+
+def determine_convergence(matcalc_result, optimizer, final_forces, threshold):
+    matcalc_conv = None
+    if isinstance(matcalc_result, dict):
+        for key in ("converged", "is_converged"):
+            if key in matcalc_result:
+                matcalc_conv = bool(matcalc_result[key])
+                break
+    flat_forces = np.asarray(final_forces, dtype=float).reshape(-1)
+    shaped_forces = flat_forces.reshape(-1, 3)
+    fmax_value = float(np.linalg.norm(shaped_forces, axis=1).max())
+    fmax_conv = bool(fmax_value < threshold)
+
+    # optimizer.converged()'s expected forces-argument shape is not
+    # consistent across installed ASE versions -- confirmed directly against
+    # real installed copies of both: ASE 3.24.0's Optimizer.converged(forces)
+    # delegates to OptimizableAtoms.converged(forces, fmax), which computes
+    # a per-atom force norm along axis 1 and therefore requires the natural
+    # (n_atoms, 3) shape; ASE 3.26.0's Optimizer.converged(gradient) instead
+    # asserts gradient.ndim == 1 and requires the flattened shape. The two
+    # are mutually incompatible, and different real FP environments on this
+    # cluster are confirmed to have different ASE versions pinned. Try every
+    # known calling convention, in an order that costs nothing extra once one
+    # succeeds, and never assume a fixed shape is correct for whatever ASE
+    # version any given FP environment actually has installed.
+    optimizer_conv = None
+    _shape_errors = (TypeError, ValueError, AssertionError)
+    for _attempt in (
+        lambda: optimizer.converged(shaped_forces),
+        lambda: optimizer.converged(flat_forces),
+        lambda: optimizer.converged(),
+    ):
+        try:
+            optimizer_conv = bool(_attempt())
+            break
+        except _shape_errors:
+            continue
+    if optimizer_conv is None:
+        # optimizer.converged() could not be called successfully in any
+        # known form on this ASE version -- fall back to the independently
+        # computed fmax-vs-threshold comparison rather than crash the whole
+        # calculation over an ASE-version incompatibility we cannot resolve.
+        optimizer_conv = fmax_conv
+
+    if matcalc_conv is not None and matcalc_conv != optimizer_conv:
+        raise RuntimeError(
+            "MatCalc-reported convergence (%r) disagrees with the tracked "
+            "optimizer convergence (%r); refusing to silently pick one"
+            % (matcalc_conv, optimizer_conv)
+        )
+    if optimizer_conv != fmax_conv and abs(fmax_value - threshold) > 1e-12:
+        raise RuntimeError(
+            "tracked optimizer convergence (%r) disagrees with the fmax-threshold "
+            "fallback (%r, fmax=%.6f, threshold=%.6f)"
+            % (optimizer_conv, fmax_conv, fmax_value, threshold)
+        )
+    converged = matcalc_conv if matcalc_conv is not None else optimizer_conv
+    return converged, fmax_value
+
+
+def relax_endpoint(pmg_struct, tag):
+    observed = {"n": 0}
+
+    def _obs(opt):
+        observed["n"] += 1
+        # Defensive reshape: opt.atoms is a plain, unwrapped ase.Atoms object
+        # here (RelaxCalc is called with relax_cell=False, so matcalc never
+        # wraps it in a cell filter -- confirmed in both locally available
+        # matcalc source generations), so get_forces() is contractually
+        # (n_atoms, 3) per ASE's own Atoms API. A malformed 1D return has
+        # been observed in practice from at least one FP calculator on a
+        # real Zaratan job (AxisError: axis 1 is out of bounds for array of
+        # dimension 1) -- reshape defensively rather than trust the
+        # calculator's output shape, same pattern already used in _neb_obs.
+        grad = np.asarray(opt.atoms.get_forces(), dtype=float).reshape(-1, 3)
+        current_fmax = float(np.linalg.norm(grad, axis=1).max())
+        write_runtime_checkpoint("endpoint_" + tag, opt.nsteps, observed["n"], current_fmax, None, None, [opt.atoms])
+
+    relax_calc = RelaxCalc(calculator=calc, optimizer=TrackingBFGS, relax_cell=False,
+                            fmax=RELAX_FMAX, max_steps=RELAX_MAX_STEPS)
+    relax_result, optimizer = run_matcalc_tracked(lambda: relax_calc.calc(pmg_struct), _obs)
+    endpoint_converged, final_fmax = determine_convergence(
+        relax_result, optimizer, optimizer.atoms.get_forces(), RELAX_FMAX)
+    relaxed_struct = AseAtomsAdaptor.get_structure(optimizer.atoms)
+    return relaxed_struct, optimizer.nsteps, observed["n"], final_fmax, endpoint_converged
+
+
+def find_working_autosort_tol(start_struct, end_struct, nimages):
+    # Preflight only: this interpolation is never used as a substitute for
+    # MatCalc's own interpolation/construction below -- only the winning
+    # tolerance value is passed forward. Graceful fallback restored from the
+    # old approved generator script's try_autosort_tols: if every tolerance
+    # in AUTOSORT_TOLS fails to reliably match sites, return None (matching
+    # the old script's behavior) rather than raising. NEBCalc.calc_images's
+    # own autosort_tol default is falsy-checked by pymatgen (`if
+    # autosort_tol:`), so None -- like 0 -- means "interpolate without
+    # autosorting" (no site reordering), the same well-defined fallback the
+    # old script relied on for these exact two pathways.
+    for tol in AUTOSORT_TOLS:
+        try:
+            test_structs = start_struct.interpolate(
+                end_struct, nimages=nimages + 1, interpolate_lattices=False,
+                pbc=False, autosort_tol=tol,
+            )
+            if len(test_structs) != nimages + 2:
+                raise RuntimeError("unexpected interpolation length %d" % len(test_structs))
+            return tol
+        except Exception:
+            continue
+    return None
+
+
+def run_neb_tracked(start_struct, end_struct, nimages, tol, observer):
+    if hasattr(NEBCalc, "calc_images"):
+        neb_calc = NEBCalc(calculator=calc, optimizer=TrackingBFGS, climb=True,
+                            fmax=NEB_FMAX, max_steps=NEB_MAX_STEPS)
+        neb_result, optimizer = run_matcalc_tracked(
+            lambda: neb_calc.calc_images(start_struct=start_struct, end_struct=end_struct,
+                                          n_images=nimages, interpolate_lattices=False,
+                                          autosort_tol=tol),
+            observer,
+        )
+        neb = neb_calc.neb
+    elif hasattr(NEBCalc, "from_end_images"):
+        # Legacy MatCalc API: NEBCalc.__init__ constructs and instantiates
+        # the optimizer immediately (self.optimizer = self.optimizer(self.neb)),
+        # so TrackingBFGS must be captured around construction, not around
+        # the later no-argument .calc(fmax=, max_steps=) call.
+        TrackingBFGS.last_instance = None
+        TrackingBFGS.active_observer = observer
+        try:
+            neb_calc = NEBCalc.from_end_images(
+                start_struct, end_struct, calculator=calc, n_images=nimages,
+                interpolate_lattices=False, autosort_tol=tol, optimizer=TrackingBFGS, climb=True,
+            )
+        finally:
+            TrackingBFGS.active_observer = None
+        optimizer = TrackingBFGS.last_instance
+        TrackingBFGS.last_instance = None
+        if optimizer is None:
+            raise RuntimeError(
+                "MatCalc did not instantiate TrackingBFGS during legacy NEBCalc "
+                "construction; refusing to silently fall back to a raw ASE optimizer"
+            )
+        barrier, force = neb_calc.calc(fmax=NEB_FMAX, max_steps=NEB_MAX_STEPS)
+        neb_result = {"barrier": barrier, "force": force}
+        neb = neb_calc.neb
+    else:
+        raise RuntimeError(
+            "installed matcalc.NEBCalc exposes neither calc_images nor "
+            "from_end_images; cannot proceed without a silent raw-ASE fallback"
+        )
+    return neb_result, optimizer, neb
+
+
+with open(INPUT_PATH) as f:
+    rec = json.load(f)
+start_pmg = Structure.from_dict(rec["start"])
+end_pmg = Structure.from_dict(rec["end"])
+
+# Minimum-image pre-alignment, restored from the old approved generator
+# script's first action (before relaxation). The reference file stores each
+# endpoint's sites in their own periodic frame, so a site's fractional
+# coordinate can legitimately differ by more than 0.5 between start and end
+# without the underlying physical hop being that large. matcalc's
+# NEBCalc.calc_images() interpolates with pbc=False internally (confirmed
+# directly in matcalc source), so without this step such a site gets
+# interpolated the long way around the cell instead of the true
+# minimum-image hop, producing superimposed atoms and a catastrophic
+# starting NEB force. No autosort_tol argument here: pymatgen's default
+# autosort_tol=0 is falsy, so no site reordering happens -- this is a pure
+# index-wise minimum-image rewrite, matching the old script exactly. This
+# must run before relaxation: re-framing after relaxation is not equivalent
+# if the relaxation itself crosses a cell face.
+_interp = start_pmg.interpolate(end_pmg, nimages=NIMAGES + 1, pbc=True)
+start_pmg = _interp[0]
+end_pmg = _interp[-1]
+
+result = {"output_key": OUTPUT_KEY, "pathway_key": PATHWAY_KEY, "identifiers": rec["identifiers"]}
+
+try:
+    start_rx, start_steps, start_log_n, start_fmax, start_conv = relax_endpoint(start_pmg, "start")
+    end_rx, end_steps, end_log_n, end_fmax, end_conv = relax_endpoint(end_pmg, "end")
+    endpoint_converged = bool(start_conv and end_conv)
+
+    used_autosort_tol = find_working_autosort_tol(start_rx, end_rx, NIMAGES)
+
+    observed_neb = {"n": 0}
+
+    def _neb_obs(opt):
+        observed_neb["n"] += 1
+        # opt.atoms is the NEB object itself for the NEB-phase optimizer
+        # (matcalc calls self.optimizer(self.neb)), not a single Atoms object.
+        grad = np.asarray(opt.atoms.get_forces(), dtype=float).reshape(-1, 3)
+        current_fmax = float(np.linalg.norm(grad, axis=1).max())
+        write_runtime_checkpoint("neb", opt.nsteps, observed_neb["n"], current_fmax,
+                                  endpoint_converged, None, opt.atoms.images)
+
+    neb_result, neb_optimizer, neb = run_neb_tracked(start_rx, end_rx, NIMAGES, used_autosort_tol, _neb_obs)
+
+    if neb is None:
+        raise RuntimeError("MatCalc did not construct an NEB object (neb_calc.neb is None)")
+    if len(neb.images) != NIMAGES + 2:
+        raise RuntimeError("expected %d NEB images, got %d" % (NIMAGES + 2, len(neb.images)))
+
+    neb_converged, final_fmax = determine_convergence(
+        neb_result, neb_optimizer, neb.get_forces(), NEB_FMAX)
+
+    optimizer_steps = neb_optimizer.nsteps
+    log_entry_count = observed_neb["n"]
+
+    final_images = {}
+    for idx, img in enumerate(neb.images):
+        final_images[str(idx)] = {
+            "structure": AseAtomsAdaptor.get_structure(img).as_dict(),
+            "fp_energy_total_eV": float(img.get_potential_energy()),
+            "fp_forces_eV_per_angstrom": img.get_forces().tolist(),
+        }
+
+    result["final_fp_neb_images"] = final_images
+    result["neb_status"] = {
+        "calculation_status": "completed",
+        "neb_converged": neb_converged,
+        "optimizer_steps": optimizer_steps,
+        "log_entry_count": log_entry_count,
+        "last_fmax_eV_per_angstrom": final_fmax,
+        "endpoint_converged": endpoint_converged,
+        "endpoint_start_fmax_eV_per_angstrom": start_fmax,
+        "endpoint_end_fmax_eV_per_angstrom": end_fmax,
+        "endpoint_start_steps": start_steps,
+        "endpoint_end_steps": end_steps,
+        "autosort_tol_used": used_autosort_tol,
+        "error": None,
+    }
+    _cm = base_calculation_metadata()
+    _cm["autosort_tol_used"] = used_autosort_tol
+    result["calculation_metadata"] = _cm
+    write_runtime_checkpoint("done", optimizer_steps, log_entry_count, final_fmax,
+                              endpoint_converged, neb_converged, neb.images)
+    print("  OK fmax=%.4f converged=%s endpoint_converged=%s steps=%d" % (
+        final_fmax, neb_converged, endpoint_converged, optimizer_steps))
+except Exception as e:
+    result["final_fp_neb_images"] = {}
+    result["neb_status"] = {
+        "calculation_status": "failed",
+        "neb_converged": None,
+        "optimizer_steps": None,
+        "log_entry_count": None,
+        "last_fmax_eV_per_angstrom": None,
+        "endpoint_converged": None,
+        "endpoint_start_fmax_eV_per_angstrom": None,
+        "endpoint_end_fmax_eV_per_angstrom": None,
+        "endpoint_start_steps": None,
+        "endpoint_end_steps": None,
+        "autosort_tol_used": None,
+        "error": type(e).__name__ + ": " + str(e),
+    }
+    result["calculation_metadata"] = base_calculation_metadata()
+    print("  ERR " + str(e))
+
+atomic_write_json(OUTPUT_PATH, result)
+print("END " + OUTPUT_KEY + " " + PATHWAY_KEY + " -> " + OUTPUT_PATH)
+"""
+
+
+def build_full_fp_neb_script(pot, reg_key, pathway_key, input_path, output_path, runtime_checkpoint_path):
+    mp = repr(pot['model_path']) if pot['model_path'] else 'None'
+    return (
+        FULL_FP_NEB_TEMPLATE
+        .replace('__SITE_PKGS__', pot['site_pkgs'])
+        .replace('__IMPORT_LINES__', pot['import_lines'])
+        .replace('__MODEL_PATH__', mp)
+        .replace('__CALC_LINES__', pot['calc_lines'])
+        .replace('__OUTPUT_KEY__', pot['output_key'])
+        .replace('__PATHWAY_KEY__', pathway_key)
+        .replace('__NIMAGES__', str(NIMAGES))
+        .replace('__RELAX_FMAX__', str(RELAX_FMAX))
+        .replace('__RELAX_MAX_STEPS__', str(RELAX_MAX_STEPS))
+        .replace('__NEB_FMAX__', str(NEB_FMAX))
+        .replace('__NEB_MAX_STEPS__', str(NEB_MAX_STEPS))
+        .replace('__AUTOSORT_TOLS__', str(AUTOSORT_TOLS))
+        .replace('__INPUT_PATH__', input_path)
+        .replace('__OUTPUT_PATH__', output_path)
+        .replace('__RUNTIME_CHECKPOINT_PATH__', runtime_checkpoint_path)
+        .replace('__REG_KEY__', reg_key)
+        .replace('__DISPLAY_NAME__', pot['display_name'])
+        .replace('__ENV_PATH__', pot['venv_activate'])
+        .replace('__SOURCE_REFERENCE_FILE__', str(DFT_REFERENCE_FILE))
+        .replace('__SOURCE_REFERENCE_SHA256__', _dft_reference_sha256)
+    )
+
+
+print('full_fp_neb template ready:', len(FULL_FP_NEB_TEMPLATE), 'chars')

@@ -1,0 +1,43 @@
+{
+  "pass": true,
+  "pages": 6,
+  "coverage_rows": 11,
+  "complete_stages": 11,
+  "complete_deep_audit_checks": 16,
+  "overall_scope_complete": true,
+  "tables": {
+    "coverage": {
+      "rows": 11,
+      "all_PDF_cells_match_CSV_in_order": true
+    },
+    "static_comparison": {
+      "rows": 11,
+      "all_PDF_cells_match_CSV_in_order": true
+    },
+    "relaxed_phase_comparison": {
+      "rows": 9,
+      "all_PDF_cells_match_CSV_in_order": true
+    },
+    "relaxed_ordering_comparison": {
+      "rows": 7,
+      "all_PDF_cells_match_CSV_in_order": true
+    },
+    "matpes_pbe_force_comparison": {
+      "rows": 8,
+      "all_PDF_cells_match_CSV_in_order": true,
+      "all_8_rows_match_audited_summaries": true
+    },
+    "omat24_force_comparison": {
+      "rows": 8,
+      "all_PDF_cells_match_CSV_in_order": true,
+      "all_8_rows_match_audited_summaries": true
+    },
+    "neb_comparison": {
+      "rows": 18,
+      "all_PDF_cells_match_CSV_in_order": true,
+      "all_18_rows_match_audited_summaries": true
+    }
+  },
+  "pdf_sha256": "bc0df0a1d9a28b45ebeb1086e30dd73f034e911c17c86ed743dac7e8a094e6a8",
+  "scientific_audit_sha256": "07e17fc79216d56764a2b4927eb090f8a732e71d16f495f02d5ddeb7d0a369a8"
+}

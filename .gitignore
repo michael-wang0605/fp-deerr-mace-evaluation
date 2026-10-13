@@ -1,0 +1,10 @@
+.venv*/
+__pycache__/
+*.pyc
+FP-DeErr/
+datasets/
+models/
+outputs/
+output/
+tmp/
+.env*

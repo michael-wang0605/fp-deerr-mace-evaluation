@@ -1,0 +1,73 @@
+{
+  "pass": true,
+  "pages": 6,
+  "coverage_rows": 11,
+  "complete_stages": 11,
+  "complete_deep_audit_checks": 16,
+  "overall_scope_complete": true,
+  "tables": {
+    "coverage": {
+      "rows": 11,
+      "all_PDF_cells_match_CSV_in_order": true
+    },
+    "static_comparison": {
+      "rows": 11,
+      "all_PDF_cells_match_CSV_in_order": true
+    },
+    "relaxed_phase_comparison": {
+      "rows": 9,
+      "all_PDF_cells_match_CSV_in_order": true
+    },
+    "relaxed_ordering_comparison": {
+      "rows": 7,
+      "all_PDF_cells_match_CSV_in_order": true
+    },
+    "matpes_pbe_force_comparison": {
+      "rows": 8,
+      "all_PDF_cells_match_CSV_in_order": true,
+      "all_8_rows_match_audited_summaries": true
+    },
+    "omat24_force_comparison": {
+      "rows": 8,
+      "all_PDF_cells_match_CSV_in_order": true,
+      "all_8_rows_match_audited_summaries": true
+    },
+    "neb_comparison": {
+      "rows": 18,
+      "all_PDF_cells_match_CSV_in_order": true,
+      "all_18_rows_match_audited_summaries": true
+    }
+  },
+  "pdf_sha256": "bc0df0a1d9a28b45ebeb1086e30dd73f034e911c17c86ed743dac7e8a094e6a8",
+  "scientific_audit_sha256": "07e17fc79216d56764a2b4927eb090f8a732e71d16f495f02d5ddeb7d0a369a8",
+  "timestamp_utc": "2026-10-12T23:04:49.879099+00:00",
+  "all_pages_rendered_and_visually_inspected": true,
+  "images": {
+    "1": {
+      "sha256": "e51bff7e136b65ff9769acd9ef89a48424807b82a3957ee04ab8703730278bf0",
+      "visually_inspected": true
+    },
+    "2": {
+      "sha256": "2d43797a85c06b1062562b2faec314ae77f894196060d0b9de91738fcf6144f3",
+      "visually_inspected": true
+    },
+    "3": {
+      "sha256": "da3b8e739bf00e006b7a23ff1d1af403514b7e4828a14c76ea584dbe417f781c",
+      "visually_inspected": true
+    },
+    "4": {
+      "sha256": "0a976d61e487d6dcaa43c58aa9b78fbf6bfeb12bfa3382876f28c3e1d262f8a6",
+      "visually_inspected": true
+    },
+    "5": {
+      "sha256": "3e1bab835c737e069819510bea3d83b732f0dbff5f3db3dd3616c27b3b844024",
+      "visually_inspected": true
+    },
+    "6": {
+      "sha256": "06d3527226a63f2abbd223ed9b0b3e301cfcdf7beeddcb9b497062a63c30eb74",
+      "visually_inspected": true
+    }
+  },
+  "no_clipping_overlap_or_missing_glyphs_observed": true,
+  "no_email_sent": true
+}

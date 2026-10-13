@@ -1,0 +1,12 @@
+Metric,Fresh CHGNet,MACE-OMAT-0 Small
+Phase stability energy MAE (meV/atom),246,62
+Ground-state agreement (%),55.9,60.9
+Within-phase agreement (%),48.8,66.9
+Global hull-minimum agreement (%),22.7,22.7
+Ordering energy MAE (meV/atom),270,51
+Top-1 accuracy (%),20.3,42.0
+Recall@3 (%),29.7,52.3
+Recall@10 (%),59.0,71.3
+Spearman correlation,0.24,0.54
+Ranking-error rate (%),40.6,27.9
+Mean / max DFT energy penalty (meV/atom),10 / 29,6 / 16

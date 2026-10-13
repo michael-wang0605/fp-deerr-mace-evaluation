@@ -1,0 +1,19 @@
+Metric,Published CHGNet,Fresh CHGNet,MACE-OMAT-0 Small
+Non-converged paths,2,2,2
+Total paths,154,154,154
+Full NEB barrier MAE (eV),0.1161,0.1163,0.0558
+Full NEB barrier RMSE (eV),0.157,0.1574,0.0978
+Static barrier MAE (eV),0.1124,0.1124,0.0707
+Static barrier RMSE (eV),0.1523,0.1523,0.1277
+Endpoint-energy difference MAE (eV),0.0358,0.0368,0.0274
+Endpoint-energy difference RMSE (eV),0.069,0.0707,0.0595
+Endpoint ranking agreement (%),78.2895,78.9474,83.5526
+Energy-profile shape agreement (%),93.4211,94.0789,92.7632
+Converged paths used for endpoint RMSD,152,152,152
+Endpoint comparisons,304,304,304
+Endpoint mapping success (%),100.0,100.0,100.0
+Mean endpoint RMSD (A),0.0783,0.0792,0.0554
+Maximum endpoint RMSD (A),0.6584,0.8009,0.7397
+Endpoint RMSD <0.05 A (%),54.6053,54.6053,72.3684
+Endpoint RMSD <0.10 A (%),78.2895,77.9605,87.5
+Endpoint RMSD <0.20 A (%),91.4474,91.4474,96.0526

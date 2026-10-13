@@ -1,0 +1,209 @@
+{
+  "dataset": "matpes_pbe",
+  "device": "cuda",
+  "full_dataset_complete": true,
+  "structures": 434712,
+  "atoms": 3881535,
+  "finite_angle_atoms": 3670957,
+  "atoms_above_DFT_force_0_01": 3559841,
+  "undefined_angle_atoms": 210578,
+  "comparison": {
+    "name": "matpes_pbe force summary",
+    "expected": [
+      "0.31 / 2.19",
+      "45 / 66",
+      "0.22 / 0.32",
+      "0.66 / 2.2",
+      "5.6",
+      "5.71",
+      "0.70 / 4.14",
+      "24 / 36"
+    ],
+    "actual": [
+      "0.31 / 2.19",
+      "45 / 66",
+      "0.22 / 0.32",
+      "0.66 / 2.2",
+      "5.6",
+      "5.71",
+      "0.70 / 4.14",
+      "24 / 36"
+    ],
+    "matching_cells": 8,
+    "total_cells": 8,
+    "pass": true
+  },
+  "notebook": "FP-DeErr\\Force_error\\analysis\\force_error_analysis_matpes_pbe.ipynb",
+  "summary_cell": 15,
+  "provenance": {
+    "dataset": {
+      "path": "datasets\\MatPES-PBE-2025.1.jsonl",
+      "sha256": "0d3fc076cfe9782e4fbba77f41315b24be034ee837fa8708e41dba652fa062a2",
+      "structures": 434712,
+      "source_url": "https://huggingface.co/datasets/materialyze/matpes/resolve/main/MatPES-PBE-2025.1.jsonl",
+      "version": "2025.1",
+      "anchor_force_indices": [
+        29632,
+        29634,
+        29635,
+        29639,
+        29640
+      ]
+    },
+    "weights_sha256": "d14ab7c0f093efe64b60a7bcd540bca10e74fb7f46c86108a079af60524659d1",
+    "repository_commit": "0d5d9a62d0ef3b7ce4da58620a7919e0e49ba815",
+    "device": "cuda",
+    "gpu": "NVIDIA GeForce RTX 2070 SUPER",
+    "dtype": "float32",
+    "tf32": false,
+    "graph_algorithm": "legacy",
+    "atom_cutoff": 6,
+    "bond_cutoff": 3,
+    "task": "efsm",
+    "prediction_batch_size": 16,
+    "shard_size": 128,
+    "force_results_sha256": "d6e8837b9a6444fbed083dfb556853a3fafa624aa4f51718214599d53e340aff",
+    "versions": {
+      "torch": "2.7.1+cu126",
+      "numpy": "1.26.4",
+      "pymatgen": "2024.10.29",
+      "ase": "3.23.0",
+      "chgnet": "0.3.0"
+    }
+  },
+  "model": "CHGNet",
+  "summary_metrics": {
+    "\u0394|F| MAE/RMSE (eV/\u00c5)": "0.31 / 2.19",
+    "\u0394\u03b8 MAE/RMSE (\u00b0)": "45 / 66",
+    "\u0394|F| MAE/RMSE (eV/\u00c5), |\u0394|F|| < 1 eV/\u00c5": "0.22 / 0.32",
+    "Frac. |\u0394|F|| < 0.01 eV/\u00c5 & \u0394\u03b8 < 1\u00b0/20\u00b0 (%)": "0.66 / 2.2",
+    "Frac. |\u0394|F|| < 0.01 eV/\u00c5 (%) \u2191": "5.6",
+    "Frac. |\u0394|F|| > 1 eV/\u00c5 (%) \u2193": "5.71",
+    "\u0394|F| MAE/RMSE (eV/\u00c5), on FE atoms": "0.70 / 4.14",
+    "\u0394\u03b8 MAE/RMSE (\u00b0), on FE atoms": "24 / 36"
+  },
+  "execution_history": [
+    {
+      "timestamp_utc": "2026-10-11T00:42:36.472848+00:00",
+      "graph_workers": 4,
+      "retry_scope": "mini_batch",
+      "prefetch_shards": 4,
+      "inference_optimized": false,
+      "partition_validation_sha256": "368b09c5b904da6459390e655ec83dbbbd748310ccba00c134e82052906f3ea1",
+      "resumed_after_verified_structures": 59136
+    },
+    {
+      "timestamp_utc": "2026-10-11T18:22:43.600442+00:00",
+      "graph_workers": 4,
+      "retry_scope": "mini_batch",
+      "prefetch_shards": 4,
+      "inference_optimized": false,
+      "empty_graph_schema_adapter": {
+        "validation_sha256": "7eed5580b6e4edcd7dce545a11ee48778d1522ea07cf1fad8315841887fc3bbb",
+        "implementation_sha256": "e42e2ced03f6e14c808e5dd2ddc5ed15ecac43508fa3f276a0477846b3847f7c"
+      },
+      "partition_validation_sha256": "368b09c5b904da6459390e655ec83dbbbd748310ccba00c134e82052906f3ea1",
+      "resumed_after_verified_structures": 201728
+    },
+    {
+      "timestamp_utc": "2026-10-11T18:36:13.317736+00:00",
+      "graph_workers": 1,
+      "retry_scope": "mini_batch",
+      "prefetch_shards": 2,
+      "inference_optimized": false,
+      "empty_graph_schema_adapter": {
+        "validation_sha256": "7eed5580b6e4edcd7dce545a11ee48778d1522ea07cf1fad8315841887fc3bbb",
+        "implementation_sha256": "e42e2ced03f6e14c808e5dd2ddc5ed15ecac43508fa3f276a0477846b3847f7c"
+      },
+      "partition_validation_sha256": "368b09c5b904da6459390e655ec83dbbbd748310ccba00c134e82052906f3ea1",
+      "resumed_after_verified_structures": 206720
+    },
+    {
+      "timestamp_utc": "2026-10-11T18:47:42.914380+00:00",
+      "graph_workers": 1,
+      "retry_scope": "mini_batch",
+      "prefetch_shards": 2,
+      "inference_optimized": false,
+      "cuda_memory_fraction": 0.75,
+      "release_unused_cache_after_shard": true,
+      "allocator_validation_sha256": "d4e326b0821fe76608702a32b3b17ce2acf284ff57f5bd9a8001d1463b032690",
+      "empty_graph_schema_adapter": {
+        "validation_sha256": "7eed5580b6e4edcd7dce545a11ee48778d1522ea07cf1fad8315841887fc3bbb",
+        "implementation_sha256": "e42e2ced03f6e14c808e5dd2ddc5ed15ecac43508fa3f276a0477846b3847f7c"
+      },
+      "partition_validation_sha256": "368b09c5b904da6459390e655ec83dbbbd748310ccba00c134e82052906f3ea1",
+      "resumed_after_verified_structures": 210048
+    },
+    {
+      "timestamp_utc": "2026-10-11T19:00:43.320203+00:00",
+      "graph_workers": 1,
+      "retry_scope": "mini_batch",
+      "prefetch_shards": 2,
+      "inference_optimized": false,
+      "cuda_memory_fraction": 0.75,
+      "release_unused_cache_after_mini_batch_and_shard": true,
+      "allocator_validation_sha256": "db5957dcfbbdf7e7ab00dc731937389d441d2eebf3e04edb9708934cf8f4c951",
+      "empty_graph_schema_adapter": {
+        "validation_sha256": "7eed5580b6e4edcd7dce545a11ee48778d1522ea07cf1fad8315841887fc3bbb",
+        "implementation_sha256": "e42e2ced03f6e14c808e5dd2ddc5ed15ecac43508fa3f276a0477846b3847f7c"
+      },
+      "partition_validation_sha256": "368b09c5b904da6459390e655ec83dbbbd748310ccba00c134e82052906f3ea1",
+      "resumed_after_verified_structures": 210432
+    },
+    {
+      "timestamp_utc": "2026-10-11T19:20:38.845555+00:00",
+      "graph_workers": 1,
+      "retry_scope": "mini_batch",
+      "prefetch_shards": 2,
+      "inference_optimized": false,
+      "cuda_memory_fraction": 0.9,
+      "release_unused_cache_after_mini_batch_and_shard": true,
+      "allocator_validation_sha256": "7a6ae50b994de945e4901465dfc2751cbe3dc7f31bc7257e346988562cd07e32",
+      "empty_graph_schema_adapter": {
+        "validation_sha256": "7eed5580b6e4edcd7dce545a11ee48778d1522ea07cf1fad8315841887fc3bbb",
+        "implementation_sha256": "e42e2ced03f6e14c808e5dd2ddc5ed15ecac43508fa3f276a0477846b3847f7c"
+      },
+      "partition_validation_sha256": "368b09c5b904da6459390e655ec83dbbbd748310ccba00c134e82052906f3ea1",
+      "resumed_after_verified_structures": 214656
+    },
+    {
+      "timestamp_utc": "2026-10-11T19:29:45.567520+00:00",
+      "graph_workers": 2,
+      "retry_scope": "mini_batch",
+      "prefetch_shards": 2,
+      "inference_optimized": false,
+      "cuda_memory_fraction": 0.9,
+      "release_unused_cache_after_mini_batch_and_shard": true,
+      "allocator_validation_sha256": "7a6ae50b994de945e4901465dfc2751cbe3dc7f31bc7257e346988562cd07e32",
+      "empty_graph_schema_adapter": {
+        "validation_sha256": "7eed5580b6e4edcd7dce545a11ee48778d1522ea07cf1fad8315841887fc3bbb",
+        "implementation_sha256": "e42e2ced03f6e14c808e5dd2ddc5ed15ecac43508fa3f276a0477846b3847f7c"
+      },
+      "partition_validation_sha256": "368b09c5b904da6459390e655ec83dbbbd748310ccba00c134e82052906f3ea1",
+      "resumed_after_verified_structures": 216832
+    },
+    {
+      "timestamp_utc": "2026-10-11T23:31:47.391327+00:00",
+      "graph_workers": 2,
+      "retry_scope": "mini_batch",
+      "prefetch_shards": 2,
+      "inference_optimized": false,
+      "cuda_memory_fraction": 0.9,
+      "release_unused_cache_after_mini_batch_and_shard": true,
+      "allocator_validation_sha256": "7a6ae50b994de945e4901465dfc2751cbe3dc7f31bc7257e346988562cd07e32",
+      "singleton_disk_offload": {
+        "validation_sha256": "04a3ceeb9d37b3652626173c8ba79c9f490e024a0968dcf64b3fcd74ded62dee",
+        "implementation_sha256": "9bae8663812e39842ae91179324a965b8a639b8d129913626795571df46a9453",
+        "trigger": "CUDA singleton OOM only",
+        "arithmetic_device": "cuda",
+        "retry_controls_sha256": "a7ffc62d2a702256640e554515f6115491697db4e999ffe86af96d5b0d1ffdb6"
+      },
+      "empty_graph_schema_adapter": {
+        "validation_sha256": "7eed5580b6e4edcd7dce545a11ee48778d1522ea07cf1fad8315841887fc3bbb",
+        "implementation_sha256": "e42e2ced03f6e14c808e5dd2ddc5ed15ecac43508fa3f276a0477846b3847f7c"
+      },
+      "partition_validation_sha256": "368b09c5b904da6459390e655ec83dbbbd748310ccba00c134e82052906f3ea1",
+      "resumed_after_verified_structures": 289664
+    }
+  ]
+}

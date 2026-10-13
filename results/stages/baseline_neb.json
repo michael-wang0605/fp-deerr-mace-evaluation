@@ -1,0 +1,152 @@
+{
+  "pathways": 154,
+  "images": 1078,
+  "all_image_shapes_and_values_valid": true,
+  "converged": 152,
+  "non_converged": 2,
+  "failed": 0,
+  "validation_pass": true,
+  "matching_metrics": 9,
+  "total_metrics": 18,
+  "comparisons": [
+    {
+      "metric": "n_nonconverged",
+      "published": 2,
+      "fresh": 2,
+      "match": true
+    },
+    {
+      "metric": "n_total",
+      "published": 154,
+      "fresh": 154,
+      "match": true
+    },
+    {
+      "metric": "barrier_mae_full_eV",
+      "published": 0.1161,
+      "fresh": 0.1163,
+      "match": false
+    },
+    {
+      "metric": "barrier_rmse_full_eV",
+      "published": 0.157,
+      "fresh": 0.1574,
+      "match": false
+    },
+    {
+      "metric": "barrier_mae_static_eV",
+      "published": 0.1124,
+      "fresh": 0.1124,
+      "match": true
+    },
+    {
+      "metric": "barrier_rmse_static_eV",
+      "published": 0.1523,
+      "fresh": 0.1523,
+      "match": true
+    },
+    {
+      "metric": "endpoint_energy_diff_mae_eV",
+      "published": 0.0358,
+      "fresh": 0.0368,
+      "match": false
+    },
+    {
+      "metric": "endpoint_energy_diff_rmse_eV",
+      "published": 0.069,
+      "fresh": 0.0707,
+      "match": false
+    },
+    {
+      "metric": "endpoint_ranking_agreement_pct",
+      "published": 78.2895,
+      "fresh": 78.9474,
+      "match": false
+    },
+    {
+      "metric": "energy_profile_shape_agreement_pct",
+      "published": 93.4211,
+      "fresh": 94.0789,
+      "match": false
+    },
+    {
+      "metric": "endpoint_rmsd_n_converged_paths",
+      "published": 152,
+      "fresh": 152,
+      "match": true
+    },
+    {
+      "metric": "endpoint_rmsd_n_endpoint_attempts",
+      "published": 304,
+      "fresh": 304,
+      "match": true
+    },
+    {
+      "metric": "endpoint_rmsd_map_success_pct",
+      "published": 100.0,
+      "fresh": 100.0,
+      "match": true
+    },
+    {
+      "metric": "endpoint_rmsd_mean_angstrom",
+      "published": 0.0783,
+      "fresh": 0.0792,
+      "match": false
+    },
+    {
+      "metric": "endpoint_rmsd_max_angstrom",
+      "published": 0.6584,
+      "fresh": 0.8009,
+      "match": false
+    },
+    {
+      "metric": "endpoint_rmsd_lt_0_05_pct",
+      "published": 54.6053,
+      "fresh": 54.6053,
+      "match": true
+    },
+    {
+      "metric": "endpoint_rmsd_lt_0_10_pct",
+      "published": 78.2895,
+      "fresh": 77.9605,
+      "match": false
+    },
+    {
+      "metric": "endpoint_rmsd_lt_0_20_pct",
+      "published": 91.4474,
+      "fresh": 91.4474,
+      "match": true
+    }
+  ],
+  "provenance": {
+    "reference_sha256": "e211dc4a88fe5739218d6b1e47404624225c5a0d787f4dcce3ef61a5574087c4",
+    "template_sha256": "8746fc520901e99b6907d4efd14cf3abf73ef416c5bc917f6fbe5baa397908e1",
+    "weights_sha256": "d14ab7c0f093efe64b60a7bcd540bca10e74fb7f46c86108a079af60524659d1",
+    "device": "cpu",
+    "threads": 1,
+    "graph_algorithm": "legacy",
+    "atom_cutoff": 6,
+    "bond_cutoff": 3,
+    "versions": {
+      "matcalc": "0.4.5",
+      "ase": "3.26.0",
+      "pymatgen": "2025.4.20",
+      "chgnet": "0.3.0",
+      "torch": "2.7.1+cu126",
+      "numpy": "1.26.4",
+      "phonopy": "4.8.1",
+      "phono3py": "4.8.2"
+    }
+  },
+  "execution": {
+    "workers": 10,
+    "inference_optimized_for_new_paths": true,
+    "path_execution_counts": {
+      "original": 16,
+      "inference_create_graph_false": 138
+    },
+    "implementation_sha256": "71568d9ad24d19a718528e699824ee7749deca85e9204933b2c0c8cdc4cf0f9c",
+    "validation_report": "optimized_neb_trajectory_validation.json"
+  },
+  "dft_static_on_fresh_fp_neb": "not run; requires VASP, licensed pseudopotentials and DFT compute access"
+}

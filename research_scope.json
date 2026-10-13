@@ -1,0 +1,72 @@
+{
+  "objective": "Complete Prof. Mo's requested reproduction and additional-potential evaluation, and prepare reviewable results and a draft message.",
+  "repository_commit": "0d5d9a62d0ef3b7ce4da58620a7919e0e49ba815",
+  "baseline": "CHGNet 0.3.0",
+  "additional_model": "MACE-OMAT-0 Small (distinct checkpoint from the included MACE-MPA-0 medium)",
+  "required_evidence": {
+    "baseline_static_phase_ordering": {
+      "structures": 6697,
+      "summary": "outputs/fresh_static_summary.json"
+    },
+    "baseline_hull_relaxation": {
+      "structures": 597,
+      "summary": "outputs/fresh_relaxation_summary.json"
+    },
+    "baseline_ordering_relaxation": {
+      "structures": 6100,
+      "summary": "outputs/fresh_ordering_relaxation_summary.json"
+    },
+    "baseline_matpes_pbe": {
+      "structures": 434712,
+      "summary": "outputs/force_benchmarks/matpes_pbe/cuda/summary.json"
+    },
+    "baseline_omat24": {
+      "structures": 117004,
+      "summary": "outputs/force_benchmarks/omat24/cuda/summary.json"
+    },
+    "baseline_neb": {
+      "paths": 154,
+      "static_images": 1078,
+      "summary": "outputs/neb_full_cpu/summary.json"
+    },
+    "additional_static_phase_ordering": {
+      "structures": 6697,
+      "summary": "outputs/mace_omat_0_small/summary.json"
+    },
+    "additional_relaxation": {
+      "structures": 6697,
+      "summary": "outputs/mace_omat_0_small/relaxation/summary.json"
+    },
+    "additional_matpes_pbe": {
+      "structures": 434712,
+      "summary": "outputs/force_benchmarks/matpes_pbe/mace_omat_0_small_cuda/summary.json"
+    },
+    "additional_omat24": {
+      "structures": 117004,
+      "summary": "outputs/force_benchmarks/omat24/mace_omat_0_small_cpu/summary.json"
+    },
+    "additional_neb": {
+      "paths": 154,
+      "static_images": 1078,
+      "summary": "outputs/mace_omat_0_small/neb/summary.json"
+    }
+  },
+  "deliverables": [
+    "A concise scientific report with methods, coverage, metric tables, reproduction discrepancies and limitations",
+    "Machine-readable tables and standardized results, with a manifest linking retained raw results and checksums",
+    "Reproduction commands, dependency versions, model sources and checkpoint hashes",
+    "An unsent draft reply to Prof. Mo summarizing the verified findings"
+  ],
+  "fidelity": [
+    "Use supplied DFT reference data and unchanged upstream metric definitions",
+    "Keep static and full-relaxation protocols separate",
+    "Retain non-converged trajectories and calculation failures; investigate failures rather than silently dropping inputs",
+    "Document all observed deviations from published results and validated execution adaptations",
+    "Do not claim unseen-data performance or absence of training overlap without evidence"
+  ],
+  "optional_not_required": {
+    "dft_static_on_fp_neb": "The upstream NEB README explicitly marks this diagnostic optional. No new VASP calculations are required to complete the email request.",
+    "other_reference_functionals": "This run evaluates the supplied PBE and OMat24 populations; MatPES-r2SCAN is not a functional-matched benchmark for these selected checkpoints."
+  },
+  "communications": "Prepare a draft only. Do not send email or publish results without explicit user authorization."
+}

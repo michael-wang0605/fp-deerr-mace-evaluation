@@ -1,0 +1,12 @@
+Model,Workflow,Coverage,Status
+CHGNet,Static phase stability and ordering,"6,697/6,697 structures",Complete
+CHGNet,Phase-stability relaxation,597/597 structures,Complete
+CHGNet,Ordering relaxation,"6,100/6,100 structures",Complete
+CHGNet,MatPES-PBE forces,"434,712/434,712 structures",Complete
+CHGNet,OMat24 rattled-1000 forces,"117,004/117,004 structures",Complete
+CHGNet,"Full NEB (+1,078 static images)",154/154 paths,Complete; 152 converged
+MACE-OMAT-0 Small,Static phase stability and ordering,"6,697/6,697 structures",Complete
+MACE-OMAT-0 Small,Phase stability and ordering relaxation,"6,697/6,697 structures",Complete; 6697 converged
+MACE-OMAT-0 Small,MatPES-PBE forces,"434,712/434,712 structures",Complete
+MACE-OMAT-0 Small,OMat24 rattled-1000 forces,"117,004/117,004 structures",Complete
+MACE-OMAT-0 Small,"Full NEB (+1,078 static images)",154/154 paths,Complete; 152 converged
