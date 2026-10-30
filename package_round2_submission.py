@@ -126,8 +126,9 @@ def main():
     for relative in manifest['files_sha256']:
         if relative.endswith('.gz'):
             source = candidate / relative
-            target = DEST / source.name
+            target = DEST / (source.parent.name + '_' + source.name)
             shutil.copy2(source, target)
+            assert builder.sha(target) == manifest['files_sha256'][relative]
             files[target.name] = {'bytes': target.stat().st_size, 'sha256': builder.sha(target), 'component': 'NEB'}
     review = DEST / 'review_bundle.zip'
     shutil.make_archive(str(review.with_suffix('')), 'zip', builder.OUT / 'review_bundle')
