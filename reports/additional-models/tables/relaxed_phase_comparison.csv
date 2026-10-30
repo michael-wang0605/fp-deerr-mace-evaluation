@@ -1,0 +1,10 @@
+Metric,Fresh CHGNet,MACE-OMAT-0 Small,MACE-OMAT-0 Medium,MACE-MH-1 (omat_pbe)
+Energy MAE (meV/atom),241,97,95,87
+Ground-state agreement (%),53.4,60.2,59.0,67.1
+Within-phase hull-minimum agreement (%),39.7,59.5,54.5,60.3
+Global hull-minimum agreement (%),18.2,27.3,27.3,40.9
+Structure mapping success (%),87.4,89.4,89.6,89.9
+Mean / max RMSD (A),0.37 / 2.28,0.27 / 2.45,0.27 / 2.61,0.27 / 2.46
+RMSD < 0.05 A (%),11.9,22.5,20.4,25.3
+RMSD < 0.1 A (%),26.4,43.3,44.3,45.8
+RMSD < 0.2 A (%),49.8,64.4,66.7,64.4

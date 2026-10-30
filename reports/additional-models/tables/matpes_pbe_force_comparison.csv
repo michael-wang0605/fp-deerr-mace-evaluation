@@ -1,0 +1,9 @@
+Metric,Fresh CHGNet,MACE-OMAT-0 Small,MACE-OMAT-0 Medium,MACE-MH-1 (omat_pbe)
+Force-magnitude MAE / RMSE (eV/A),0.31 / 2.19,0.20 / 0.98,0.22 / 1.11,0.15 / 1.10
+Force-angle MAE / RMSE (degrees),45 / 66,34 / 56,33 / 55,28 / 50
+"Magnitude MAE / RMSE, magnitude error <1 eV/A",0.22 / 0.32,0.16 / 0.25,0.15 / 0.24,0.13 / 0.21
+"Joint accuracy, angles <1 / <20 degrees (%)",0.66 / 2.2,1.2 / 5.7,1.4 / 6.7,2.2 / 9.3
+Magnitude error <0.01 eV/A (%),5.6,8.8,9.9,13.0
+Magnitude error >1 eV/A (%),5.71,2.45,2.57,1.52
+Magnitude MAE / RMSE on FE atoms (eV/A),0.70 / 4.14,0.38 / 1.83,0.45 / 2.07,0.29 / 2.07
+Angle MAE / RMSE on FE atoms (degrees),24 / 36,15 / 25,14 / 26,11 / 21

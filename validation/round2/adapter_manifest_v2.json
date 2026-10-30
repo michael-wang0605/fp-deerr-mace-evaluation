@@ -1,0 +1,167 @@
+{
+  "source_files_sha256": {
+    "new_potential_static.py": "e40f043a7c639405dea38d19b5532509f1d0541f64074728b5e29b63e9f0ca1b",
+    "new_potential_relaxation.py": "05deadeb4bb8ed3b779a355f40452e17f74dda6a015528e8e2aea02c2f769123",
+    "new_potential_force.py": "72d5a8baccf26227efcd4e2d3cab13a0304499d975bb19709fc60d95653692ce",
+    "new_potential_neb.py": "ecf6333f093bd762029f7916ffd22b9568faf9b7989f3f90d7fc33efe311b4fc",
+    "validate_mace_batches.py": "f720802d9749b0a89f25e25300c8784b283bf9ebc15f8c0f0de290fde1516e46",
+    "profile_mace_device.py": "c5c91fba09f2e058793517b90d6506d8d5927434fd0d220ae8ebe3e7c8b98706",
+    "validate_mace_cuda_partitions.py": "e08dd8ddd300716ca6db71689b917cec20dd36161825c491576121ba1ae6cccf",
+    "verify_mace_retry_controls.py": "03998105554bd1ce4766606a3299fba41b2a3551a79650e3f24ff0fbceb72e62",
+    "mace_neb_provenance.py": "b81e1ed31cf48314d8e88aa7a0011583c9fd6200c0e149f9a7160528dd13320a",
+    "new_potential_neb_mixed.py": "1fc198913835b1496e66766582c05c745ba9f978eb80867969854e2cb70fda15",
+    "mace_neb_cuda_worker.py": "9a645470be018555c9d66ac1f70f6d3d28698dff792dec62072449a969f1449f",
+    "validate_mace_cuda_neb.py": "e8f1fbf140b364ad9a5190f2ae3c990c6b2a10031e5a56a2d45a15652820b57c",
+    "mace_batch_inference.py": "a724f7bc23a048dca585c98739be9ae3f6801a7ff80c9ee256bec49e628f7e46"
+  },
+  "generator_sha256": "89bd4272261ea07ece188ada6245d2db2910f8b578eb824611f7899415e6d423",
+  "models": {
+    "mace_omat_0_medium": {
+      "identity": {
+        "display_name": "MACE-OMAT-0 Medium",
+        "fp_key": "MACE_OMAT_0_MEDIUM",
+        "checkpoint": "mace-omat-0-medium.model",
+        "url": "https://github.com/ACEsuit/mace-foundations/releases/download/mace_omat_0/mace-omat-0-medium.model",
+        "bytes": 79463999,
+        "expected_sha256": null,
+        "head": "default",
+        "cutoff_angstrom": 6.0,
+        "dtype": "float64",
+        "dispersion": false,
+        "reason": "Larger distinct checkpoint than the completed Small run; not listed in the pinned upstream model roster.",
+        "training_overlap": "OMat24 training data; structure-level overlap is not audited.",
+        "sha256": "d4b14be9afa294eebdbe31a0280b26a0fa29715771e978cbfd3ca24e0d90307a",
+        "source": "Official GitHub release asset",
+        "checksum_note": "Locally pinned SHA-256; release API supplied no digest.",
+        "head_note": "The official Medium checkpoint exposes one head named default; it is the OMat PBE(+U) model, not a selectable omat_pbe head."
+      },
+      "adapters": {
+        "new_potential_static.py": {
+          "path": "outputs/round2/adapters_v2/mace_omat_0_medium/new_potential_static.py",
+          "sha256": "84bf7955c57683e84addcf3148b68d3064fdc5b5e1f5ba884f8427857ad0284c"
+        },
+        "new_potential_relaxation.py": {
+          "path": "outputs/round2/adapters_v2/mace_omat_0_medium/new_potential_relaxation.py",
+          "sha256": "a01f0145686afd4c2fd07772f9b7e2b9ee15a4e671be33d75bc58dcf9629c293"
+        },
+        "new_potential_force.py": {
+          "path": "outputs/round2/adapters_v2/mace_omat_0_medium/new_potential_force.py",
+          "sha256": "12e8a8aa9a10757f1f3bc78f24636b2b3de3d24c79b414bb5db01da94851d4ec"
+        },
+        "new_potential_neb.py": {
+          "path": "outputs/round2/adapters_v2/mace_omat_0_medium/new_potential_neb.py",
+          "sha256": "ac597be09475750e1f6db120904355b16071f9f274000facc17ac4ea785590a0"
+        },
+        "validate_mace_batches.py": {
+          "path": "outputs/round2/adapters_v2/mace_omat_0_medium/validate_mace_batches.py",
+          "sha256": "cc58f9ca332c4f65b141b6721d09aa6263b0db2b332908145e372ea66b664e1c"
+        },
+        "profile_mace_device.py": {
+          "path": "outputs/round2/adapters_v2/mace_omat_0_medium/profile_mace_device.py",
+          "sha256": "f908e960af2087259b92877b61b4c400009685d70fd0944bdc80faa9883208b7"
+        },
+        "validate_mace_cuda_partitions.py": {
+          "path": "outputs/round2/adapters_v2/mace_omat_0_medium/validate_mace_cuda_partitions.py",
+          "sha256": "ca39548d72fcc007a983bedcd23bb880c622839d9a97c1dc9e51dbbc1b4dc665"
+        },
+        "verify_mace_retry_controls.py": {
+          "path": "outputs/round2/adapters_v2/mace_omat_0_medium/verify_mace_retry_controls.py",
+          "sha256": "131c76371d2d3358a98a696d2f33556365ef80373258086de8858a102b0622de"
+        },
+        "mace_neb_provenance.py": {
+          "path": "outputs/round2/adapters_v2/mace_omat_0_medium/mace_neb_provenance.py",
+          "sha256": "8ad35c3843c8a17e01e2feb2cda27a66e6c1ff3c09f083567f7f822ac40b7a71"
+        },
+        "new_potential_neb_mixed.py": {
+          "path": "outputs/round2/adapters_v2/mace_omat_0_medium/new_potential_neb_mixed.py",
+          "sha256": "6c11a81607889e57d682db642b4fc7abc9403ce29d81442dca1c0e9ee64c6d72"
+        },
+        "mace_neb_cuda_worker.py": {
+          "path": "outputs/round2/adapters_v2/mace_omat_0_medium/mace_neb_cuda_worker.py",
+          "sha256": "96fc8a528b3a331234fe3267633b3a1cd683fd32bb786ed2dd71354b28953e93"
+        },
+        "validate_mace_cuda_neb.py": {
+          "path": "outputs/round2/adapters_v2/mace_omat_0_medium/validate_mace_cuda_neb.py",
+          "sha256": "9e24cdff3cc7d7fedc920cf4faf51256fbea1a5ae5742df640ae3b424a4b98d7"
+        },
+        "mace_batch_inference.py": {
+          "path": "outputs/round2/adapters_v2/mace_omat_0_medium/mace_batch_inference.py",
+          "sha256": "6a377efc9e7ea912e8956f6b48e72b300a7ebadcb787c920acc247d94c098ce3"
+        }
+      }
+    },
+    "mace_mh_1_omat_pbe": {
+      "identity": {
+        "display_name": "MACE-MH-1 (omat_pbe)",
+        "fp_key": "MACE_MH_1_OMAT_PBE",
+        "checkpoint": "mace-mh-1.model",
+        "url": "https://github.com/ACEsuit/mace-foundations/releases/download/mace_mh_1/mace-mh-1.model",
+        "bytes": 59208139,
+        "expected_sha256": "a522eb7f59c7879963d41586528f4980baf33e086c94aa92e3eafdeccad3be47",
+        "head": "omat_pbe",
+        "cutoff_angstrom": 6.0,
+        "dtype": "float64",
+        "dispersion": false,
+        "reason": "Distinct multi-head cross-domain model; evaluate only its PBE/OMat head on the existing PBE-reference workflow.",
+        "training_overlap": "OMat pretraining and cross-domain fine-tuning including MatPES-related data. No unseen-data claim; exact structure-level overlap remains unaudited.",
+        "sha256": "a522eb7f59c7879963d41586528f4980baf33e086c94aa92e3eafdeccad3be47",
+        "source": "Official GitHub release asset",
+        "checksum_note": "Matches release API SHA-256."
+      },
+      "adapters": {
+        "new_potential_static.py": {
+          "path": "outputs/round2/adapters_v2/mace_mh_1_omat_pbe/new_potential_static.py",
+          "sha256": "2f3c471721de8d908f63c43be3529842fd926b991ccb0eddc8be600ac8fa8417"
+        },
+        "new_potential_relaxation.py": {
+          "path": "outputs/round2/adapters_v2/mace_mh_1_omat_pbe/new_potential_relaxation.py",
+          "sha256": "f6ad1259d47e6e61b5cde5086f1ed22c0aec294dbcd880ade85e5bc16ca71d98"
+        },
+        "new_potential_force.py": {
+          "path": "outputs/round2/adapters_v2/mace_mh_1_omat_pbe/new_potential_force.py",
+          "sha256": "1ce60962762037f60e4a94d468c7e0360ee878bf525f56536ebc6181521cc2d4"
+        },
+        "new_potential_neb.py": {
+          "path": "outputs/round2/adapters_v2/mace_mh_1_omat_pbe/new_potential_neb.py",
+          "sha256": "589141a29ba4e5e88dd1399480692985b951fa5463978fafaf2ce396a0bad05b"
+        },
+        "validate_mace_batches.py": {
+          "path": "outputs/round2/adapters_v2/mace_mh_1_omat_pbe/validate_mace_batches.py",
+          "sha256": "eb208fc75e05b411db3fbcb78fc43c5a8b309f637be317afdd4eea7eaba801bc"
+        },
+        "profile_mace_device.py": {
+          "path": "outputs/round2/adapters_v2/mace_mh_1_omat_pbe/profile_mace_device.py",
+          "sha256": "335191ad90418ddaa166cec9e16086cc4743d9b8eb4ee1652c9958c35905dd08"
+        },
+        "validate_mace_cuda_partitions.py": {
+          "path": "outputs/round2/adapters_v2/mace_mh_1_omat_pbe/validate_mace_cuda_partitions.py",
+          "sha256": "3931c54851019b4cf8fe1e67cd90fbb6722303321b5c44f28d3a851565fa72b0"
+        },
+        "verify_mace_retry_controls.py": {
+          "path": "outputs/round2/adapters_v2/mace_mh_1_omat_pbe/verify_mace_retry_controls.py",
+          "sha256": "78f9292672e01d66f85e1217fe6c3df09bf1da1b471489971085c940fb13bdaa"
+        },
+        "mace_neb_provenance.py": {
+          "path": "outputs/round2/adapters_v2/mace_mh_1_omat_pbe/mace_neb_provenance.py",
+          "sha256": "98e98dbee4f125e049126901db5ccb7b2da978f66d6789dc1ef0897ffe9152cf"
+        },
+        "new_potential_neb_mixed.py": {
+          "path": "outputs/round2/adapters_v2/mace_mh_1_omat_pbe/new_potential_neb_mixed.py",
+          "sha256": "d21b6fd4b9ea8e724dd29aa7298a37a291b4b433c7e558bf50320ba1ecd53460"
+        },
+        "mace_neb_cuda_worker.py": {
+          "path": "outputs/round2/adapters_v2/mace_mh_1_omat_pbe/mace_neb_cuda_worker.py",
+          "sha256": "ab0abbb7cbb0d9982837bc7dfba0912ee32a1c333b2eb5267b5d1a9e42cbaccf"
+        },
+        "validate_mace_cuda_neb.py": {
+          "path": "outputs/round2/adapters_v2/mace_mh_1_omat_pbe/validate_mace_cuda_neb.py",
+          "sha256": "55e482693d57e86a562eeb1108839e51d589ea597bbe5a5f31947fa338886dc1"
+        },
+        "mace_batch_inference.py": {
+          "path": "outputs/round2/adapters_v2/mace_mh_1_omat_pbe/mace_batch_inference.py",
+          "sha256": "c15854347cc330b7e1e9d79d9bb54b7ad7a6e106a6125a62fbe605ea2bf50465"
+        }
+      }
+    }
+  }
+}

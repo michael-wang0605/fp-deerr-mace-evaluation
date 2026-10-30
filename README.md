@@ -1,5 +1,15 @@
 # FP-DeErr: reproduction and MACE evaluation
 
+## Additional models completed October 28, 2026
+
+MACE-OMAT-0 Medium (`default` head) and MACE-MH-1 (`omat_pbe` head) completed all twelve additional scientific stages. Both independent deep-source audits passed all eleven checks. Each model covers 6,697 static and relaxed structures, 434,712 MatPES-PBE structures, 117,004 OMat24 structures, and 154 static/full NEB paths. Medium retains two non-converged NEB paths and MH1 one, with zero failed paths.
+
+- [Four-model comparison tables, exact checkpoints and audits](reports/additional-models/README.md)
+- [Complete standardized results downloads](SUBMISSION.md)
+- [Proposed upstream leaderboard update](https://github.com/mogroupumd/FP-DeErr/pull/1)
+
+The supplied reference populations, fixed cells, optimizer settings and metric definitions were preserved. Float64 CPU/CUDA execution and saved-tensor storage adaptations have accompanying calibration proofs. Dependency differences, training overlap and PBE/PBE+U reference differences remain documented. The results are submitted for maintainer review; upstream inclusion is a separate decision.
+
 Completed reproduction with **CHGNet 0.3.0**, followed by evaluation of **MACE-OMAT-0 Small** using the same FP-DeErr reference data and metric definitions.
 
 **11/11 required stages complete · 16/16 final audit checks passed · 6-page report reviewed**

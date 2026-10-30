@@ -1,0 +1,8 @@
+Metric,Fresh CHGNet,MACE-OMAT-0 Small,MACE-OMAT-0 Medium,MACE-MH-1 (omat_pbe)
+Ordering energy MAE (meV/atom),271,76,76,68
+Top-1 accuracy (%),7.5,24.9,22.6,22.3
+Recall@3 (%),20.3,34.0,33.4,34.3
+Recall@10 (%),52.6,60.3,61.5,62.0
+Spearman correlation,0.08,0.28,0.3,0.31
+Ranking-error rate (%),46.8,39.3,38.4,37.8
+Mean / max DFT energy penalty (meV/atom),13 / 39,12 / 35,12 / 35,11 / 35

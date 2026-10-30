@@ -1,0 +1,60 @@
+{
+  "prepared_utc": "2026-10-28T23:33:21.350845+00:00",
+  "audits_pass": true,
+  "scope_sha256": "25ef452fae6f5b58a8a1e3a43f248b3679541d1f262caa8f32dddfa6e78e0521",
+  "upstream_commit": "0d5d9a62d0ef3b7ce4da58620a7919e0e49ba815",
+  "merged_upstream": false,
+  "models": {
+    "mace_omat_0_medium": {
+      "display_name": "MACE-OMAT-0 Medium",
+      "fp_key": "MACE_OMAT_0_MEDIUM",
+      "checkpoint": "mace-omat-0-medium.model",
+      "url": "https://github.com/ACEsuit/mace-foundations/releases/download/mace_omat_0/mace-omat-0-medium.model",
+      "bytes": 79463999,
+      "expected_sha256": null,
+      "head": "default",
+      "cutoff_angstrom": 6.0,
+      "dtype": "float64",
+      "dispersion": false,
+      "reason": "Larger distinct checkpoint than the completed Small run; not listed in the pinned upstream model roster.",
+      "training_overlap": "OMat24 training data; structure-level overlap is not audited.",
+      "sha256": "d4b14be9afa294eebdbe31a0280b26a0fa29715771e978cbfd3ca24e0d90307a",
+      "source": "Official GitHub release asset",
+      "checksum_note": "Locally pinned SHA-256; release API supplied no digest.",
+      "head_note": "The official Medium checkpoint exposes one head named default; it is the OMat PBE(+U) model, not a selectable omat_pbe head."
+    },
+    "mace_mh_1_omat_pbe": {
+      "display_name": "MACE-MH-1 (omat_pbe)",
+      "fp_key": "MACE_MH_1_OMAT_PBE",
+      "checkpoint": "mace-mh-1.model",
+      "url": "https://github.com/ACEsuit/mace-foundations/releases/download/mace_mh_1/mace-mh-1.model",
+      "bytes": 59208139,
+      "expected_sha256": "a522eb7f59c7879963d41586528f4980baf33e086c94aa92e3eafdeccad3be47",
+      "head": "omat_pbe",
+      "cutoff_angstrom": 6.0,
+      "dtype": "float64",
+      "dispersion": false,
+      "reason": "Distinct multi-head cross-domain model; evaluate only its PBE/OMat head on the existing PBE-reference workflow.",
+      "training_overlap": "OMat pretraining and cross-domain fine-tuning including MatPES-related data. No unseen-data claim; exact structure-level overlap remains unaudited.",
+      "sha256": "a522eb7f59c7879963d41586528f4980baf33e086c94aa92e3eafdeccad3be47",
+      "source": "Official GitHub release asset",
+      "checksum_note": "Matches release API SHA-256."
+    }
+  },
+  "files_sha256": {
+    "mace_mh_1_omat_pbe_audit.json": "2ade76ea55cfd965fdb572e7d001ad9b1d9089e8e1f672130077d9fa95525b67",
+    "mace_mh_1_omat_pbe_relaxation_summary.json": "818c7063f646a6e6c052bafb5a7ab950dd91a5ce60f1e1ce5adf0b75addaedae",
+    "mace_omat_0_medium_audit.json": "928cb0018e6f8b8922bf0c92b88ef8a76c192a552dde74f6735f5078230ec682",
+    "mace_omat_0_medium_relaxation_summary.json": "a15620dc7a235d4bdf29b5cd38eab8e218012b3762ce844f11b917d7beb65aa8",
+    "README.md": "cf62ccccdff3a835553d4f1899cc400d52c37a442e1f592d4d5ce95eaf985462",
+    "relaxation_acceleration/calibration_cpu.json": "7c997b48e5417cad602379153a0e902cc7de698a3fc8658eee4c1f594f08669d",
+    "relaxation_acceleration/calibration_cuda.json": "e79bb18d53326cf032923c8ef241512e519c9b7c957529ff3041f450e1126eab",
+    "relaxation_acceleration/validation.json": "83b0363a936900b26f1cadf227317200bbbf3f030026322ca6265d2a10c001e6",
+    "tables/matpes_pbe_force_comparison.csv": "07058c79538cfc6141bffa2db5dbd381fbe28397ebf2e1106c59fde60c4fce43",
+    "tables/neb_comparison.csv": "4b13a1445b89b1aa80d669fbd3842f878a467eb16434ddbb162b9de82d226420",
+    "tables/omat24_force_comparison.csv": "99ebac4b3ee3a4a80bf596741f6484b6027d6a0b37646a872ea3a75315fb5d7d",
+    "tables/relaxed_ordering_comparison.csv": "227ddeb81e68c7e3062ebc6c01dd11cc3b643058c267f7abf8f78edde2be4f91",
+    "tables/relaxed_phase_comparison.csv": "7f3ef61b63653e057f963f73b7cc923ed4b9aa102f4906df255baeb687e4acfa",
+    "tables/static_comparison.csv": "0ebcbf499d66e7b15980a403fe9bc53b6bef78c99042a51c58cf0254011f2892"
+  }
+}

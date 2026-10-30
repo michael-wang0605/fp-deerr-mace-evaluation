@@ -1,1 +1,4 @@
 * -text
+reports/additional-models/** -text whitespace=cr-at-eol
+validation/round2/** -text whitespace=cr-at-eol
+*.py whitespace=cr-at-eol

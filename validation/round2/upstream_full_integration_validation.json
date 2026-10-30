@@ -1,0 +1,15 @@
+{
+  "pass": true,
+  "checked_added_html_rows": 51,
+  "models": [
+    "mace_omat_0_small",
+    "mace_omat_0_medium",
+    "mace_mh_1_omat_pbe"
+  ],
+  "existing_html_rows_preserved": true,
+  "existing_neb_rows_preserved": true,
+  "new_neb_rows_equal_audited_exports": true,
+  "force_summary_column_order_verified": true,
+  "checked_contributed_file_hashes": 75,
+  "candidate_manifest_sha256": "204d28933769f37522d9cbfea971482337feea7fb38c8eabaddbfdf0b304092b"
+}
